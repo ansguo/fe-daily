@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01_波纹按钮</title>
+</head>
+
+<style>
+  .container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  button {
+    position: relative;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px 36px;
+    color: #fff;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #0162c8, #55e7fc);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+
+  /* 波纹样式 */
+  span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* 初始样式 */
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+    border-radius: 50%;
+    background-color: #fff;
+
+    /* 消除 波纹 对按钮点击的影响 */
+    pointer-events: none;
+
+    animation: animate 1s linear 1;
+  }
+
+  /* 波纹动效 */
+  @keyframes animate {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 0.5;
+    }
+
+    100% {
+      width: 500px;
+      height: 500px;
+      opacity: 0;
+    }
+  }
+</style>
+
+<body>
+  <div class="container">
+    <button>
+      购买
+    </button>
+  </div>
+
+  <script>
+    // 基于 鼠标的点击位置 动态创建波纹
+    const button = document.querySelector('button')
+
+    // 注册点击事件
+    button.addEventListener('click', (e) => {
+      const boundingBox = button.getBoundingClientRect()
+      const x = e.clientX - boundingBox.left
+      const y = e.clientY - boundingBox.top
+
+      const ripple = document.createElement('span')
+      ripple.style.left = `${x}px`
+      ripple.style.top = `${y}px`
+      button.appendChild(ripple)
+
+      ripple.addEventListener('animationend', () => ripple.remove())
+    })
+
+
+  </script>
+</body>
+
+</html>
