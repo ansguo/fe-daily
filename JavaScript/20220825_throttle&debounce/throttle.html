@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>20220825_throttle&debounce</title>
+</head>
+
+<body>
+  hello
+
+  <script>
+    /**
+     * 节流函数 throttle
+     * 
+     * 某个函数在一定时间间隔内只执行一次，比如每3s只执行一次；
+     * 应用场景：函数被频繁调用的场景，比如window.onresize()、mousemove、scroll等
+     */
+
+    /**
+     * 基本实现
+     * 思路：用时间戳来判断是否到了执行时间，记录上一次执行的时间戳，
+     * 每日触发事件后执行回调，回调中判断当前时间距离上一次时间是否已经达到了时间差，
+     * 如果是则执行，并且更新本次执行的时间戳
+     */
+    const throttle = (fn, wait) => {
+      let previous = 0
+
+      return function (...args) {
+        let now = +new Date()
+
+        if (now - previous > wait) {
+          previous = now
+          fn.apply(this.args)
+        }
+      }
+    }
+
+    window.onresize = throttle(() => {
+      console.log('resize', new Date().getSeconds())
+    }, 1000)
+
+
+    /**
+     * underscrore中是怎么实现节流的？
+     * 它支持了更高级的功能：
+     * 1. 是否需要响应事件刚开始的那次回调
+     * 2. 是否需要响应事件结束后的那次回调
+     * 
+     * underscore中节流有3种调用方式
+     * 1. 默认，有头有尾
+     * 2. 开始那次不执行
+     * 3. 结束后那次不执行
+     */
+
+  </script>
+</body>
+
+</html>

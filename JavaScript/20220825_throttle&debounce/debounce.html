@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>20220825_throttle&debounce</title>
+</head>
+
+<style>
+  body {
+    min-height: 200vh;
+  }
+</style>
+
+<body>
+  <script>
+    /**
+     * 防抖函数 debounce
+     * 
+     * 某个函数在某个事件段内，无论触发多少次回调，都只执行最后一次;
+     */
+
+    function debounce(fn, wait = 50, immediate = false) {
+      let timer = null
+      return function (...args) {
+        if (timer) clearTimeout(timer)
+
+        if (!timer && immediate) {
+          fn.apply(this.args)
+        }
+
+        timer = setTimeout(() => {
+          fn.apply(this, args)
+          timer = null
+        }, wait)
+      }
+    }
+
+
+    window.addEventListener('scroll', debounce(() => {
+      console.log('run scroll callback')
+    }, 1000, true))
+  </script>
+</body>
+
+</html>
