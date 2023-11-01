@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Request, Query } from '@nestjs/common';
+import { Controller, Get, Post, Request, Query, Body, Param, Headers } from '@nestjs/common';
 import { ListService } from './list.service';
 
 @Controller('list') // 这个controller下面请求路径前面统一有list 
@@ -12,15 +12,6 @@ export class ListController {
   @Get()
   getList(): any {
     return this.listService.getList();
-  }
-
-  /**
-   * post方法
-   * 本地用rest client插件本地调试
-   */
-  @Post('/add')
-  addTodo(): any {
-    return this.listService.addTodo();
   }
 
   /**
@@ -42,4 +33,48 @@ export class ListController {
     return this.listService.getTodoById(id)
   }
 
+  /**
+   * post方法，传递参数
+   * 本地可用rest client插件本地调试
+   * 获取参数的方式：
+   * 1. @Request req.body
+   * 2. @Body body
+   * 
+   */
+  // @Post('/add')
+  // addTodo(@Request() req): any {
+  // console.log('use request get data', req.body)
+  //   return this.listService.addTodo();
+  // }
+
+  @Post('/add')
+  addTodo(@Body() body): any {
+    console.log('use body get data', body)
+    return this.listService.addTodo();
+  }
+
+  /**
+   * 创建动态路由
+   * 两种获取动态参数的方式：
+   * 1. @Reqeust req.params.xxx
+   * 2. @Param params.xxx
+   * 
+   * 也可以设置多个动态参数，比如/item/:id/:name
+   */
+  // @Get('/item/:id')
+  // getItem(@Request() req): any {
+  //   const id: number = parseInt(req.params.id)
+  //   return this.listService.getTodoById(id)
+  // }
+
+  @Get('/item/:id/:name')
+  getItem(@Param() param, @Headers() headers): any {
+    const id: number = parseInt(param.id)
+    const name: string = param.name
+    console.log('/item/:id/:name', id, name)
+    console.log('headers', headers)
+    return this.listService.getTodoById(id)
+  }
+
+  // @Headers装饰器，用来获取请求头内的信息
 }

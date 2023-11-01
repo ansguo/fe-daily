@@ -3,3 +3,19 @@
 # POST http://localhost:3000/api/list/add
 
 # GET http://localhost:3000/api/list/getTodoById?id=2
+
+# POST 带参数
+# POST http://localhost:3000/api/list/add
+# Content-Type: application/json
+
+# {
+#   "id": 4,
+#   "name": "add an itme"
+# }
+
+# 动态路由访问
+# GET http://localhost:3000/api/list/item/1
+
+
+# 动态路由，多个参数
+GET http://localhost:3000/api/list/item/1/big
