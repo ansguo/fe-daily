@@ -50,6 +50,7 @@ export class ListController {
   @Post('/add')
   addTodo(@Body() body): any {
     console.log('use body get data', body)
+
     return this.listService.addTodo();
   }
 
